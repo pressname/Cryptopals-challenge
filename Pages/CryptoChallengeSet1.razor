@@ -5,7 +5,7 @@
 <h4>Hex to Base64</h4>
 The string
 <ResultPrompt Text="@HexStringChallange1"></ResultPrompt>
-The result 
+The result
 <ResultPrompt Text="@HexStringToBase64String(HexStringChallange1)"></ResultPrompt>
 
 <h4>Fixed XOR </h4>
@@ -15,3 +15,19 @@ The key
 <ResultPrompt Text="686974207468652062756c6c277320657965"></ResultPrompt>
 The result
 <ResultPrompt Text="@FixedXOR("1c0111001f010100061a024b53535009181c","686974207468652062756c6c277320657965")"></ResultPrompt>
+
+<h4>Single-byte XOR cipher</h4>
+
+The string
+<ResultPrompt Text="1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"></ResultPrompt>
+@*Calculated key
+<ResultPrompt Text=""></ResultPrompt>
+The Result
+<ResultPrompt Text=""></ResultPrompt>*@
+
+
+<div style="height:500px;overflow-y:scroll">
+    <Virtualize Items="@CrackSingleByteXOR("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")" Context="result">
+        <p @key="result.GetHashCode()">@result.ToString()</p>
+    </Virtualize>
+</div>

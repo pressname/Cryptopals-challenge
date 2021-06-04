@@ -9,6 +9,21 @@ namespace Cryptopals.Pages
     public partial class CryptoChallengeSet1
     {
         private string HexStringChallange1 { get; set; } = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
+        private readonly Dictionary<char, double> MostUsedCharFrequencyDict = new()
+        {
+            {'e',12.60},
+            {'t',9.37 },
+            {'a',8.34 },
+            {'o',7.70 },
+            {'n',6.80 },
+            {'i',6.71 },
+            {'h',6.11 },
+            {'s',6.11 },
+            {'r',5.68 },
+            {'l',4.24 },
+            {'d',4.14 },
+            {'u',2.85 }
+        };
         private string HexStringToBase64String(string value)
         {
             return Convert.ToBase64String(StringToByteArray(value));
@@ -44,7 +59,35 @@ namespace Cryptopals.Pages
             }
         }
 
+        private List<string> CrackSingleByteXOR(string value)
+        {
+            var hexValue = StringToByteArray(value);
+            var xordValues = new List<string>();
+            for (char i = 'A'; i <= 'Z'; i++)
+            {
+                var result = new byte[hexValue.Length];
+                for (int x = 0; x < hexValue.Length; x++)
+                {
+                    result[x] = (byte)(hexValue[x] ^ Convert.ToByte(i));
+                }
+                var plaintext = Encoding.UTF8.GetString(result);
+                //todo add scoring methode 
+                xordValues.Add(plaintext);
+            }
+            return xordValues;
+        }
 
+        //private int ScoreValue(string value)
+        //{
+        //    //make char frequency dict
+        //    var charFrequency = value.GroupBy(x => x)
+        //          .Select(x => new
+        //          {
+        //              Character = x.Key,
+        //              Count = x.Count()
+        //          });
+
+        //}
 
     }
 }
