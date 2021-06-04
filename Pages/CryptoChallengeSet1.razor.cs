@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cryptopals.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,10 +60,10 @@ namespace Cryptopals.Pages
             }
         }
 
-        private List<string> CrackSingleByteXOR(string value)
+        private List<XorResult> CrackSingleByteXOR(string value)
         {
             var hexValue = StringToByteArray(value);
-            var xordValues = new List<string>();
+            var xordValues = new List<XorResult>();
             for (char i = 'A'; i <= 'Z'; i++)
             {
                 var result = new byte[hexValue.Length];
@@ -72,22 +73,12 @@ namespace Cryptopals.Pages
                 }
                 var plaintext = Encoding.UTF8.GetString(result);
                 //todo add scoring methode 
-                xordValues.Add(plaintext);
+                xordValues.Add(new XorResult(i, plaintext, MostUsedCharFrequencyDict));
+
             }
-            return xordValues;
+            return xordValues.OrderByDescending(x => x.CharFrequencyRating).ToList();
         }
 
-        //private int ScoreValue(string value)
-        //{
-        //    //make char frequency dict
-        //    var charFrequency = value.GroupBy(x => x)
-        //          .Select(x => new
-        //          {
-        //              Character = x.Key,
-        //              Count = x.Count()
-        //          });
-
-        //}
 
     }
 }

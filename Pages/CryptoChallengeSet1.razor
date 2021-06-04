@@ -20,12 +20,6 @@ The result
 
 The string
 <ResultPrompt Text="1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"></ResultPrompt>
-@*Calculated key
-<ResultPrompt Text=""></ResultPrompt>
-The Result
-<ResultPrompt Text=""></ResultPrompt>*@
-
-
 <div style="height:500px;overflow-y:scroll">
     <Virtualize Items="@CrackSingleByteXOR("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")" Context="result">
         <p @key="result.GetHashCode()">@result.ToString()</p>
