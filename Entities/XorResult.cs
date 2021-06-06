@@ -25,9 +25,10 @@ namespace Cryptopals.Data
             //make char frequency dict
             var charFrequency = new Dictionary<char, double>();
             var valueLenght = Result.Length;
+            var lowerCaseResult = Result.ToLower();
 
             //calulate char occurents
-            foreach (char c in Result)
+            foreach (char c in lowerCaseResult)
             {
                 if (charFrequency.ContainsKey(c))
                 {
