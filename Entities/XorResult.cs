@@ -10,7 +10,7 @@ namespace Cryptopals.Data
         public char Key { get; set; }
         public string Result { get; set; }
         public double CharFrequencyRating { get; set; }
-        public Dictionary<char, double> LanguageCharFrequencyDict { get; set; }
+        private Dictionary<char, double> LanguageCharFrequencyDict { get; set; }
 
         public XorResult(char key, string result, Dictionary<char, double> languageCharFrequencyDict)
         {

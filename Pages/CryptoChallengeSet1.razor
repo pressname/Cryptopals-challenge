@@ -34,17 +34,17 @@ The string
         </thead>
         <tbody>
             <Virtualize Items="@CrackSingleByteXOR("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")" Context="result">
-                <ItemContent>
-                    <tr>
-                        <td>@result.Key</td>
-                        <td>@result.Result</td>
-                        <td>@result.CharFrequencyRating</td>
-                    </tr>
-                </ItemContent>
-                <Placeholder>
-                    <p>no data to display</p>
-                </Placeholder>
-            </Virtualize>
+            <ItemContent>
+                <tr>
+                    <td>@result.Key</td>
+                    <td>@result.Result</td>
+                    <td>@result.CharFrequencyRating</td>
+                </tr>
+            </ItemContent>
+            <Placeholder>
+                <p>no data to display</p>
+            </Placeholder>
+        </Virtualize>
         </tbody>
     </table>
 </div>
@@ -82,3 +82,42 @@ time to crack: @ElapsedMs ms
 time to crack: @ElapsedMs ms
 <br />
 <br />
+<h4>Implement repeating-key XOR</h4>
+The string
+<ResultPrompt Text="Burning 'em, if you ain't quick and nimble
+I go crazy when I hear a cymbal"></ResultPrompt>
+The key
+<ResultPrompt Text="ICE"></ResultPrompt>
+The result
+<ResultPrompt Text="@FixedXOR("1c0111001f010100061a024b53535009181c","686974207468652062756c6c277320657965")"></ResultPrompt>
+
+<br />
+<br />
+<h4>Break repeating-key XOR</h4>
+Hamming Distance Test: needs to be 37!!!!
+<ResultPrompt Text="@HammingDistance("this is a test", "wokka wokka!!!").ToString()"></ResultPrompt>
+<br />
+Guess keysize:
+<div style="height:500px;overflow-y:scroll">
+    <table>
+        <thead>
+            <tr>
+                <th>Edit Distance</th>
+                <th>KEYSIZE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <Virtualize Items="@TestKeysize(2,40, Challenge6List)" Context="result">
+                <ItemContent>
+                    <tr>
+                        <td>@result.EditDistance</td>
+                        <td>@result.Keysize</td>
+                    </tr>
+                </ItemContent>
+                <Placeholder>
+                    <p>no data to display</p>
+                </Placeholder>
+            </Virtualize>
+        </tbody>
+    </table>
+</div>
