@@ -54,5 +54,10 @@ namespace Cryptopals.Entities
             }
             return result;
         }
+
+        public override string ToString()
+        {
+            return $"key:{Shift} - result:{Text} - frequency score:{CharFrequencyRating}";
+        }
     }
 }
