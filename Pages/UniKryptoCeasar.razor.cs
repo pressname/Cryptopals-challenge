@@ -83,7 +83,7 @@ namespace Cryptopals.Pages
 
 
         private const string TableStart = @"\begin{center}" + "\n" + @"\begin{tabular}";
-        private const string TableEnd = @"\end{tabular}" + "\n" + @"\end{center}" + "\n";
+        private const string TableEnd = @"\hline" + "\n" + @"\end{tabular}" + "\n" + @"\end{center}" + "\n";
         public string DictToLatexTable<TKey, TValue>(Dictionary<TKey, TValue> value, string keyName, string valueName)
         {
             var tableStart = TableStart + @"{|c|c|}" + "\n";
