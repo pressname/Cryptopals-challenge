@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Cryptopals.Entities;
 using Cryptopals.Services;
 
@@ -91,21 +93,60 @@ namespace Cryptopals.Pages
             var tableContent = "";
             foreach (var item in value)
             {
-                tableContent += @$"\hline {item.Key} & {item.Value}\\ " + "\n";
+                tableContent += @$"\hline {SanitizeString(item.Key.ToString())} & {SanitizeString(item.Value.ToString())}\\ " + "\n";
             }
             return tableStart + tableHeader + tableContent + TableEnd;
         }
 
-        public string ListToLatexTable<T>(List<T> value, string name)
+        public string ListToLatexTable<T>(List<T> value, bool useReflection ,string name = null)
         {
-            var tableStart = TableStart + @"{|c|} " + "\n";
-            var tableHeader = @$"\hline {name} \\ " + "\n";
+            var tableStart = TableStart + @"{";
+            var tableHeader = @$"\hline";
             var tableContent = "";
-            foreach (var item in value)
+            if (useReflection)
             {
-                tableContent += @"\hline " + SanitizeString(item.ToString()) + @" \\ " + "\n";
+                var publicFieldNames = GetPublicFieldNames(typeof(T));
+                foreach (var item in publicFieldNames)
+                {
+                    tableStart += @"|c|";
+                    tableHeader += $" {SanitizeString(item)} & ";
+                }
+                tableHeader = tableHeader.Remove(tableHeader.LastIndexOf('&'));
+                tableStart += @"}" + "\n";
+                tableHeader += @" \\ " + "\n";
+                foreach (var item in value)
+                {
+                    var content = "";
+                    foreach (var field in publicFieldNames)
+                    {
+                        var fieldValue = item.GetType().GetProperty(field).GetValue(item).ToString();
+                        content += $"{SanitizeString(fieldValue)} &";
+                    }
+                    content = content.Remove(content.LastIndexOf('&'));
+                    tableContent += @"\hline " + content + @" \\ " + "\n";
+                }
+            }
+            else
+            {
+                tableStart += @"|c|} " + "\n";
+                foreach (var item in value)
+                {
+                    tableContent += @"\hline " + SanitizeString(item.ToString()) + @" \\ " + "\n";
+                }
             }
             return tableStart + tableHeader + tableContent + TableEnd;
+        }
+
+        private string[] GetPublicFieldNames(Type type)
+        {
+            var fieldInfo = type.GetProperties();
+            List<string> names = new();
+            
+            for (int i = 0; i < fieldInfo.Length; i++)
+            {
+                names.Add(fieldInfo[i].Name);
+            }
+            return names.ToArray();
         }
 
         private string SanitizeString(string value)
@@ -118,7 +159,6 @@ namespace Cryptopals.Pages
                 {"´", "" },
                 {"^", "" }
             };
-
             foreach (var item in replacements)
             {
                 value = value.Replace(item.Key, item.Value);
