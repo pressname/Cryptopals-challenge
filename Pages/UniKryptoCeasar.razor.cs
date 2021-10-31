@@ -44,7 +44,7 @@ namespace Cryptopals.Pages
         private List<CeasarResult> BruteForceCeaser(string cipherText)
         {
             var erg = new List<CeasarResult>();
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < 26; i++)
             {
                 erg.Add(Caesar(cipherText,i));
             }
@@ -60,6 +60,7 @@ namespace Cryptopals.Pages
 
         private CeasarResult Caesar(string value, int shift)
         {
+            value = value.ToLower();
             char[] result = value.ToCharArray();
             for (int i = 0; i < result.Length; i++)
             {
